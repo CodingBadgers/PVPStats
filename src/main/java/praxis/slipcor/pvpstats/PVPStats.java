@@ -15,8 +15,6 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import praxis.slipcor.pvpstats.Updater.UpdateType;
-
 /**
  * main class
  * 
@@ -41,9 +39,7 @@ public class PVPStats extends JavaPlugin {
 	private final PSListener entityListener = new PSListener(this);
 	protected final PSPAListener paListener = new PSPAListener(this);
 	private PSPAPluginListener paPluginListener;
-	
-	private Updater updater = null;
-	
+
 	public void onEnable() {
 		final PluginDescriptionFile pdfFile = getDescription();
 		
@@ -61,19 +57,7 @@ public class PVPStats extends JavaPlugin {
 			}
 		}
 		
-		if (getConfig().getBoolean("updatecheck", true)) {
-			
-			if (getConfig().getBoolean("autodownload", true)) {
-				updater = new Updater(this, 32908, this.getFile(), UpdateType.NO_DOWNLOAD, false);
-			} else {
-				updater = new Updater(this, 32908, this.getFile(), UpdateType.DEFAULT, false);
-			}
-		}
-		
 		loadLanguage();
-		
-		final Tracker tracker = new Tracker(this);
-        tracker.start();
 		
 		if (getConfig().getBoolean("clearonstart", true)) {
 
@@ -118,11 +102,7 @@ public class PVPStats extends JavaPlugin {
 			this.paHandler = paPlugin;
 		}
 	}
-	
-	public Updater getUpdater() {
-		return updater;
-	}
-	
+
 	public void sendPrefixed(final CommandSender sender, final String message) {
 		sender.sendMessage(Language.MSG_PREFIX + message);
 	}

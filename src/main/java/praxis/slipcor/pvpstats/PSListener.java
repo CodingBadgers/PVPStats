@@ -9,7 +9,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
-import praxis.slipcor.pvpstats.Updater.UpdateResult;
 
 /**
  * Listener class
@@ -25,26 +24,7 @@ public class PSListener implements Listener {
 
 	public PSListener(final PVPStats instance) {
 		this.plugin = instance;
-	}
-	
-	@EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
-	public void onPlayerJoin(final PlayerJoinEvent event) {
-		if (event.getPlayer().isOp() && plugin.getUpdater() != null) {
-			
-			final UpdateResult test = plugin.getUpdater().getResult();
-			
-			switch (test) {
-			case SUCCESS:
-				event.getPlayer().sendMessage(Language.MSG_UPDATED.toString());
-				break;
-			case UPDATE_AVAILABLE:
-				event.getPlayer().sendMessage(Language.MSG_UPDATE.toString());
-			default:
-				break;
-			}
-		
-		}
-	}
+        }
 	
 	@EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
 	public void onPlayerDeath(final PlayerDeathEvent event) {
