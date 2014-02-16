@@ -36,40 +36,17 @@ public class PVPStats extends JavaPlugin {
 	protected String dbKillTable = null;
 	protected int dbPort = 3306;
 
-	private final PSListener entityListener = new PSListener(this);
 	protected final PSPAListener paListener = new PSPAListener(this);
-	private PSPAPluginListener paPluginListener;
 
 	public void onEnable() {
 		final PluginDescriptionFile pdfFile = getDescription();
 		
-		getServer().getPluginManager().registerEvents(entityListener, this);
-		
 		loadConfig();
 		loadHooks();
 		
-		if (getConfig().getBoolean("PVPArena")) {
-			if (getServer().getPluginManager().isPluginEnabled("pvparena")) {
-				getServer().getPluginManager().registerEvents(paListener, this);
-			} else {
-				paPluginListener = new PSPAPluginListener(this);
-				getServer().getPluginManager().registerEvents(paPluginListener, this);
-			}
-		}
+		getServer().getPluginManager().registerEvents(paListener, this);
 		
 		loadLanguage();
-		
-		if (getConfig().getBoolean("clearonstart", true)) {
-
-			class RunLater implements Runnable {
-				@Override
-				public void run() {
-					Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "pvpstats cleanup");
-				}
-				
-			}
-			Bukkit.getScheduler().runTaskLater(this, new RunLater(), 5000L);
-		}
 		
 		getLogger().info("enabled. (version " + pdfFile.getVersion() + ")");
 	}
